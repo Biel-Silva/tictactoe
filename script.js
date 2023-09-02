@@ -1,15 +1,15 @@
 //Iniciando 
 const arrayCelulas = ['', '', '', '', '', '', '', '', '']
-const combinacoesVencedoras = {
-    0:[0,1,2],
-    1:[3,4,5],
-    2:[6,7,8],
-    3:[0,3,6],
-    4:[1,4,7],
-    5:[2,5,8],
-    6:[0,4,8],
-    7:[2,4,6]
-}
+const combinacoesVencedoras = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+]
 
 const simbolos = ['X', 'O']
 let turno = 0
@@ -40,48 +40,41 @@ function gameInit(){
 
 function jogar(e){
     e.innerHTML = simbolos[turno] 
-    arrayCelulas[Number(e.id)] = simbolos[turno]
+    arrayCelulas[Number(e.id)] = simbolos[turno] 
 
-    verificadorCombinacoes()
-
-    alterarTurno()
+        let [val, seq, simbol] = verificadorCombinacoes()
+        
+        if(val){
+            fimDeJogo(seq, simbol)
+        } else {
+            alterarTurno()
+        }
 }
 
 function verificadorCombinacoes(){
-    for(let i in combinacoesVencedoras){
+    for(let i = 0; combinacoesVencedoras[i] != undefined; i++){
         if(
-            arrayCelulas[combinacoesVencedoras[i][0]] == simbolos[turno] &&
-            arrayCelulas[combinacoesVencedoras[i][1]] == simbolos[turno] &&
-            arrayCelulas[combinacoesVencedoras[i][2]] == simbolos[turno]
+            arrayCelulas[ combinacoesVencedoras[i][0] ] == simbolos[turno] &&
+            arrayCelulas[ combinacoesVencedoras[i][1] ] == simbolos[turno] &&
+            arrayCelulas[ combinacoesVencedoras[i][2] ] == simbolos[turno]
 
         ){
-            console.log("foi")
-
-            let simboloVencedor = simbolos[turno]
-
-            fimDeJogo(combinacoesVencedoras[i], simboloVencedor)
+            return [true, combinacoesVencedoras[i], simbolos[turno]]
+        } else {
+            return false
         }
     }
 }
 
 function fimDeJogo(seq, vencedor){
-    let seqArray = seq
 
-    for(let i = 0; i <= seqArray.length; i++){
-        let celulaSeqVencedora = document.getElementById(seqArray[i])
-        
+    for(let i = 0; i < seq.length; i++){
+      let celula = document.getElementById(String(seq[i]))
+
+      celula.style.backgroundColor = 'green'
     }
 
-    console.log(vencedor)
-
-    if(vencedor === "X"){
-        document.querySelector('#X').innerHTML = 'X: '+(X+1)
-    } else if (vencedor === "O") {
-        document.querySelector('#O').innerHTML = 'O: '+(O+1)
-    }
-
-    document.querySelector("#container").innerHTML = ''
-
+    document.querySelector('#container').innerHTML = ''
     gameInit()
 }
    
