@@ -1,5 +1,5 @@
 //Iniciando 
-const arrayCelulas = ['', '', '', '', '', '', '', '', '']
+let arrayCelulas = ['', '', '', '', '', '', '', '', '']
 const combinacoesVencedoras = [
     [0,1,2],
     [3,4,5],
@@ -11,7 +11,7 @@ const combinacoesVencedoras = [
     [2,4,6]
 ]
 
-const simbolos = ['X', 'O']
+let simbolos = ['X', 'O']
 let turno = 0
 function alterarTurno(){
     turno = (turno === 0 ? 1 : 0)
@@ -20,10 +20,12 @@ function alterarTurno(){
 let X = 0
 let O = 0
 
+let idEstado = 0
+
 function gameInit(){
     //Células do jogo
     let campoJogo = document.querySelector('#container')
-    let idEstado = 0
+    
 
     arrayCelulas.map(()=>{
 
@@ -42,10 +44,13 @@ function jogar(e){
     e.innerHTML = simbolos[turno] 
     arrayCelulas[Number(e.id)] = simbolos[turno] 
 
-    if(verificadorCombinacoes() != true){
-        console.log(verificadorCombinacoes())
+    let val = verificadorCombinacoes()
+
+    if(val < 0){
+        
         alterarTurno()
     } else {
+        pontuacao()
         fimDeJogo()
     }
             
@@ -59,15 +64,37 @@ function verificadorCombinacoes(){
             arrayCelulas[combinacoesVencedoras[i][2]] == simbolos[turno]
         )
         {
-            return true
+            
+            return 1
         }
     }
 
-    return false
+    return -1 
 }
 
 function fimDeJogo(){
-    location.reload()
+    let campoJogo = document.querySelector("#container")
+    arrayCelulas = ['','','','','','','','','']
+    campoJogo.innerHTML = ''
+    idEstado = 0
+    turno = 0
+    
+
+    gameInit()
+}
+
+function pontuacao(){
+    switch(simbolos[turno]){
+        case "X" :
+            X+=1
+            document.querySelector("#X").innerHTML = `X: ${X}`
+        break;
+
+        case "O" : 
+            O+=1
+            document.querySelector("#O").innerHTML = `O: ${O}`
+        break;
+    }
 }
 
 
