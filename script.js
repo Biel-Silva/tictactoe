@@ -42,39 +42,33 @@ function jogar(e){
     e.innerHTML = simbolos[turno] 
     arrayCelulas[Number(e.id)] = simbolos[turno] 
 
-        let [val, seq, simbol] = verificadorCombinacoes()
-        
-        if(val){
-            fimDeJogo(seq, simbol)
-        } else {
-            alterarTurno()
-        }
+    if(verificadorCombinacoes() != true){
+        console.log(verificadorCombinacoes())
+        alterarTurno()
+    } else {
+        fimDeJogo()
+    }
+            
 }
 
 function verificadorCombinacoes(){
-    for(let i = 0; combinacoesVencedoras[i] != undefined; i++){
+    for(let i = 0; combinacoesVencedoras[i] !== undefined; i++){
         if(
-            arrayCelulas[ combinacoesVencedoras[i][0] ] == simbolos[turno] &&
-            arrayCelulas[ combinacoesVencedoras[i][1] ] == simbolos[turno] &&
-            arrayCelulas[ combinacoesVencedoras[i][2] ] == simbolos[turno]
-
-        ){
-            return [true, combinacoesVencedoras[i], simbolos[turno]]
-        } else {
-            return false
+            arrayCelulas[combinacoesVencedoras[i][0]] == simbolos[turno] &&
+            arrayCelulas[combinacoesVencedoras[i][1]] == simbolos[turno] &&
+            arrayCelulas[combinacoesVencedoras[i][2]] == simbolos[turno]
+        )
+        {
+            return true
         }
     }
+
+    return false
 }
 
-function fimDeJogo(seq, vencedor){
-
-    for(let i = 0; i < seq.length; i++){
-      let celula = document.getElementById(String(seq[i]))
-
-      celula.style.backgroundColor = 'green'
-    }
-
-    document.querySelector('#container').innerHTML = ''
-    gameInit()
+function fimDeJogo(){
+    location.reload()
 }
+
+
    
