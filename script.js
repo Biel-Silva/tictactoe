@@ -19,6 +19,7 @@ function alterarTurno(){
 
 let X = 0
 let O = 0
+let ex = 0
 
 let idEstado = 0
 
@@ -47,11 +48,10 @@ function jogar(e){
     let val = verificadorCombinacoes()
 
     if(val < 0){
-        
         alterarTurno()
     } else {
         pontuacao()
-        fimDeJogo()
+        fimDeJogo(val, simbolos[turno])
     }
             
 }
@@ -59,28 +59,37 @@ function jogar(e){
 function verificadorCombinacoes(){
     for(let i = 0; combinacoesVencedoras[i] !== undefined; i++){
         if(
-            arrayCelulas[combinacoesVencedoras[i][0]] == simbolos[turno] &&
-            arrayCelulas[combinacoesVencedoras[i][1]] == simbolos[turno] &&
-            arrayCelulas[combinacoesVencedoras[i][2]] == simbolos[turno]
+            arrayCelulas[combinacoesVencedoras[i][0]] == simbolos[turno] &&  //Como temos uma array multidimensional o i retorna uma array e o 0 é o primeiro índice
+            arrayCelulas[combinacoesVencedoras[i][1]] == simbolos[turno] &&  //array i 2 indice
+            arrayCelulas[combinacoesVencedoras[i][2]] == simbolos[turno]  //array i 3 indice (a largura máxima dessas arrays é 3 então não tem problema fazer manualmente)
         )
         {
             
-            return 1
+            return combinacoesVencedoras[i]
         }
     }
 
     return -1 
 }
 
-function fimDeJogo(){
-    let campoJogo = document.querySelector("#container")
-    arrayCelulas = ['','','','','','','','','']
-    campoJogo.innerHTML = ''
-    idEstado = 0
-    turno = 0
-    
+function fimDeJogo(seq, simbolo){
+    pintandoCelulas(seq, simbolo)
+
+    document.getElementById(String(seq[0])).addEventListener('animationend', ()=>{
+        let campoJogo = document.querySelector("#container")
+        arrayCelulas = ['','','','','','','','','']
+        campoJogo.innerHTML = ''
+        idEstado = 0
+        turno = 0
+    })
 
     gameInit()
+}
+
+function pintandoCelulas(seq, simbolo){
+    for(let i = 0; i <= seq.length; i++){
+        document.getElementById(String([i])).className += ' celulaGanho'
+    }
 }
 
 function pontuacao(){
