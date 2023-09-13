@@ -64,7 +64,6 @@ function verificadorCombinacoes(){
             arrayCelulas[combinacoesVencedoras[i][2]] == simbolos[turno]  //array i 3 indice (a largura máxima dessas arrays é 3 então não tem problema fazer manualmente)
         )
         {
-            
             return combinacoesVencedoras[i]
         }
     }
@@ -74,22 +73,28 @@ function verificadorCombinacoes(){
 
 function fimDeJogo(seq, simbolo){
     pintandoCelulas(seq, simbolo)
+}
 
+function pintandoCelulas(seq, simbolo){
     document.getElementById(String(seq[0])).addEventListener('animationend', ()=>{
         let campoJogo = document.querySelector("#container")
         arrayCelulas = ['','','','','','','','','']
         campoJogo.innerHTML = ''
         idEstado = 0
         turno = 0
+
+        gameInit()
     })
 
-    gameInit()
+    for(let i = 0; i <= seq.length; i++){
+        document.getElementById(String(seq[i])).className += ' celulaGanho'
+    }
 }
 
-function pintandoCelulas(seq, simbolo){
-    for(let i = 0; i <= seq.length; i++){
-        document.getElementById(String([i])).className += ' celulaGanho'
-    }
+function reiniciaJogo(id){
+    
+
+    gameInit()
 }
 
 function pontuacao(){

@@ -60,5 +60,5 @@ body{
 }
 
 .celulaGanho{
-    animation: piscarVerde 2s linear 1s ;
+    animation: piscarVerde 0.7s linear 0s ;
 }
