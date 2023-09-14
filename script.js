@@ -22,6 +22,7 @@ let O = 0
 let ex = 0
 
 let idEstado = 0
+let jogadas = 0
 
 function gameInit(){
     //Células do jogo
@@ -48,12 +49,24 @@ function jogar(e){
     let val = verificadorCombinacoes()
 
     if(val < 0){
-        alterarTurno()
+        if(jogadas == 8){
+            let campoJogo = document.querySelector("#container")
+            arrayCelulas = ['','','','','','','','','']
+            campoJogo.innerHTML = ''
+            idEstado = 0
+            turno = 0
+            jogadas = 0
+
+            gameInit()
+        } else {
+            alterarTurno()
+        }
     } else {
         pontuacao()
         fimDeJogo(val, simbolos[turno])
     }
-            
+
+    jogadas++      
 }
 
 function verificadorCombinacoes(){
