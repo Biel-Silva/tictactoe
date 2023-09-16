@@ -43,7 +43,8 @@ function gameInit(){
 }
 
 function jogar(e){
-    e.innerHTML = simbolos[turno] 
+    e.innerHTML = simbolos[turno]
+    e.onclick = ''
     arrayCelulas[Number(e.id)] = simbolos[turno] 
 
     let val = verificadorCombinacoes()
